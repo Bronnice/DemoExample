@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Demo14032023Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="disciple">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="shortname" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="group">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="year" Type="int" Nullable="false" />
+          <Property Name="subgroup" Type="smallint" Nullable="false" />
+          <Property Name="speciality_id" Type="int" Nullable="false" />
+          <Property Name="class" Type="smallint" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="journal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="group_id" Type="int" Nullable="false" />
+          <Property Name="teacher_id" Type="int" Nullable="false" />
+          <Property Name="disciple_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="speciality">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="shortname" Type="nvarchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_auth">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_group_speciality">
+          <End Role="speciality" Type="Self.speciality" Multiplicity="1" />
+          <End Role="group" Type="Self.group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="speciality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="group">
+              <PropertyRef Name="speciality_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_journal_disciple">
+          <End Role="disciple" Type="Self.disciple" Multiplicity="1" />
+          <End Role="journal" Type="Self.journal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="disciple">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="journal">
+              <PropertyRef Name="disciple_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_journal_group">
+          <End Role="group" Type="Self.group" Multiplicity="1" />
+          <End Role="journal" Type="Self.journal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="group">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="journal">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_journal_user_auth">
+          <End Role="user_auth" Type="Self.user_auth" Multiplicity="1" />
+          <End Role="journal" Type="Self.journal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_auth">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="journal">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Demo14032023ModelContainer">
+          <EntitySet Name="disciple" EntityType="Self.disciple" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="group" EntityType="Self.group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="journal" EntityType="Self.journal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="speciality" EntityType="Self.speciality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_auth" EntityType="Self.user_auth" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_group_speciality" Association="Self.FK_group_speciality">
+            <End Role="speciality" EntitySet="speciality" />
+            <End Role="group" EntitySet="group" />
+          </AssociationSet>
+          <AssociationSet Name="FK_journal_disciple" Association="Self.FK_journal_disciple">
+            <End Role="disciple" EntitySet="disciple" />
+            <End Role="journal" EntitySet="journal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_journal_group" Association="Self.FK_journal_group">
+            <End Role="group" EntitySet="group" />
+            <End Role="journal" EntitySet="journal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_journal_user_auth" Association="Self.FK_journal_user_auth">
+            <End Role="user_auth" EntitySet="user_auth" />
+            <End Role="journal" EntitySet="journal" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Demo14032023Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="disciple">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="shortname" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="journal" Relationship="Self.FK_journal_disciple" FromRole="disciple" ToRole="journal" />
+        </EntityType>
+        <EntityType Name="group">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="year" Type="Int32" Nullable="false" />
+          <Property Name="subgroup" Type="Int16" Nullable="false" />
+          <Property Name="speciality_id" Type="Int32" Nullable="false" />
+          <Property Name="class" Type="Int16" Nullable="false" />
+          <Property Name="code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="speciality" Relationship="Self.FK_group_speciality" FromRole="group" ToRole="speciality" />
+          <NavigationProperty Name="journal" Relationship="Self.FK_journal_group" FromRole="group" ToRole="journal" />
+        </EntityType>
+        <EntityType Name="journal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="group_id" Type="Int32" Nullable="false" />
+          <Property Name="teacher_id" Type="Int32" Nullable="false" />
+          <Property Name="disciple_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="disciple" Relationship="Self.FK_journal_disciple" FromRole="journal" ToRole="disciple" />
+          <NavigationProperty Name="group" Relationship="Self.FK_journal_group" FromRole="journal" ToRole="group" />
+          <NavigationProperty Name="user_auth" Relationship="Self.FK_journal_user_auth" FromRole="journal" ToRole="user_auth" />
+        </EntityType>
+        <EntityType Name="speciality">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="shortname" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="group" Relationship="Self.FK_group_speciality" FromRole="speciality" ToRole="group" />
+        </EntityType>
+        <EntityType Name="user_auth">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="journal" Relationship="Self.FK_journal_user_auth" FromRole="user_auth" ToRole="journal" />
+        </EntityType>
+        <Association Name="FK_journal_disciple">
+          <End Role="disciple" Type="Self.disciple" Multiplicity="1" />
+          <End Role="journal" Type="Self.journal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="disciple">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="journal">
+              <PropertyRef Name="disciple_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_group_speciality">
+          <End Role="speciality" Type="Self.speciality" Multiplicity="1" />
+          <End Role="group" Type="Self.group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="speciality">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="group">
+              <PropertyRef Name="speciality_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_journal_group">
+          <End Role="group" Type="Self.group" Multiplicity="1" />
+          <End Role="journal" Type="Self.journal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="group">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="journal">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_journal_user_auth">
+          <End Role="user_auth" Type="Self.user_auth" Multiplicity="1" />
+          <End Role="journal" Type="Self.journal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_auth">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="journal">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DemoDB" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="disciple" EntityType="Self.disciple" />
+          <EntitySet Name="group" EntityType="Self.group" />
+          <EntitySet Name="journal" EntityType="Self.journal" />
+          <EntitySet Name="speciality" EntityType="Self.speciality" />
+          <EntitySet Name="user_auth" EntityType="Self.user_auth" />
+          <AssociationSet Name="FK_journal_disciple" Association="Self.FK_journal_disciple">
+            <End Role="disciple" EntitySet="disciple" />
+            <End Role="journal" EntitySet="journal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_group_speciality" Association="Self.FK_group_speciality">
+            <End Role="speciality" EntitySet="speciality" />
+            <End Role="group" EntitySet="group" />
+          </AssociationSet>
+          <AssociationSet Name="FK_journal_group" Association="Self.FK_journal_group">
+            <End Role="group" EntitySet="group" />
+            <End Role="journal" EntitySet="journal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_journal_user_auth" Association="Self.FK_journal_user_auth">
+            <End Role="user_auth" EntitySet="user_auth" />
+            <End Role="journal" EntitySet="journal" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Demo14032023ModelContainer" CdmEntityContainer="DemoDB">
+          <EntitySetMapping Name="disciple">
+            <EntityTypeMapping TypeName="Demo14032023Model.disciple">
+              <MappingFragment StoreEntitySet="disciple">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="shortname" ColumnName="shortname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="group">
+            <EntityTypeMapping TypeName="Demo14032023Model.group">
+              <MappingFragment StoreEntitySet="group">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="subgroup" ColumnName="subgroup" />
+                <ScalarProperty Name="speciality_id" ColumnName="speciality_id" />
+                <ScalarProperty Name="class" ColumnName="class" />
+                <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="journal">
+            <EntityTypeMapping TypeName="Demo14032023Model.journal">
+              <MappingFragment StoreEntitySet="journal">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+                <ScalarProperty Name="disciple_id" ColumnName="disciple_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="speciality">
+            <EntityTypeMapping TypeName="Demo14032023Model.speciality">
+              <MappingFragment StoreEntitySet="speciality">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="shortname" ColumnName="shortname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_auth">
+            <EntityTypeMapping TypeName="Demo14032023Model.user_auth">
+              <MappingFragment StoreEntitySet="user_auth">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
